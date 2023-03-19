@@ -18,14 +18,9 @@ def load_data():
 
 @st.cache
 def get_departments(df):
-    dept_col = [col for col in df.columns if 'Dept' in col]
-    
-    if not dept_col:
-        st.error("La colonne contenant les noms des départements est introuvable.")
-        return []
-    
-    return df[dept_col[0]].unique()
+    return df["NomDept"].unique()
 
+df = load_data()
 
 # Affiche les noms de colonnes sur le tableau de bord Streamlit
 st.write(df.columns)
