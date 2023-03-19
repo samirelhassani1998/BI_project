@@ -3,8 +3,9 @@ import pandas as pd
 import plotly.express as px
 import seaborn as sns
 
-# Chargez les données (remplacez "data.csv" par le nom du fichier de vos données)
-data = pd.read_csv("data.csv")
+# Chargez les données depuis l'URL
+url = "https://www.data.gouv.fr/fr/datasets/r/1d916b7c-bd4c-4951-845a-70f7ad7c17db"
+data = pd.read_csv(url)
 
 # Titre du tableau de bord
 st.title("Analyse des données Parcoursup")
