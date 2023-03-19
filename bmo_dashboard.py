@@ -17,8 +17,11 @@ def load_data():
 
 @st.cache
 def get_departments(df):
-    return df["NomDept"].unique()
-
+    if "NomDept" in df.columns:
+        return "NomDept", df["NomDept"].unique()
+    else:
+        st.error("La colonne contenant les noms des départements est introuvable.")
+        return None, []
 
 df = load_data()
 dept_col, departments = get_departments(df)
