@@ -12,21 +12,20 @@ def load_data():
     with zipfile.ZipFile(BytesIO(response.content), "r") as zip_ref:
         xlsx_files = [f for f in zip_ref.filelist if f.filename.endswith(".xlsx")]
         with zip_ref.open(xlsx_files[0], "r") as file:
-            df = pd.read_excel(file, engine="openpyxl", sheet_name=0, header=0)
-    
+            df = pd.read_excel(file, engine="openpyxl")
     return df
 
 @st.cache
 def get_departments(df):
-    return df["NomDept"].unique()
+    dept_col = [col for col in df.columns if 'Dept' in col]
+    
+    if not dept_col:
+        st.error("La colonne contenant les noms des départements est introuvable.")
+        return []
+    
+    return df[dept_col[0]].unique()
 
 df = load_data()
-
-# Affiche les noms de colonnes sur le tableau de bord Streamlit
-st.write(df.columns)
-# Affiche les premières lignes du DataFrame sur le tableau de bord Streamlit
-st.write(df.head())
-
 departments = get_departments(df)
 
 st.title("Dashboard Enquête Besoins en Main d'Oeuvre (BMO)")
