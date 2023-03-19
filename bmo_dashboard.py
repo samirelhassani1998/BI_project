@@ -20,23 +20,28 @@ def get_departments(df):
     dept_col = [col for col in df.columns if 'Dept' in col]
     
     if not dept_col:
-        st.error("La colonne contenant les noms des départements est introuvable.")
-        return []
+        return None, []
     
-    return df[dept_col[0]].unique()
+    return dept_col[0], df[dept_col[0]].unique()
 
 df = load_data()
-departments = get_departments(df)
+dept_col, departments = get_departments(df)
 
-st.title("Dashboard Enquête Besoins en Main d'Oeuvre (BMO)")
+if dept_col is None:
+    st.error("La colonne contenant les noms des départements est introuvable.")
+else:
+    st.title("Dashboard Enquête Besoins en Main d'Oeuvre (BMO)")
 
-selected_dept = st.selectbox("Sélectionnez un département", departments)
+    selected_dept = st.selectbox("Sélectionnez un département", departments)
 
-filtered_df = df[df["NomDept"] == selected_dept]
+    if dept_col in df.columns:
+        filtered_df = df[df[dept_col] == selected_dept]
 
-fig = px.bar(
-    filtered_df, x="Nom métier BMO", y="BE22",
-    title=f"Besoins en Main d'Oeuvre par métier pour le département {selected_dept}",
-)
-fig.update_xaxes(categoryorder="total descending")
-st.plotly_chart(fig)
+        fig = px.bar(
+            filtered_df, x="Nom métier BMO", y="BE22",
+            title=f"Besoins en Main d'Oeuvre par métier pour le département {selected_dept}",
+        )
+        fig.update_xaxes(categoryorder="total descending")
+        st.plotly_chart(fig)
+    else:
+        st.error("La colonne contenant les noms des départements est introuvable.")
