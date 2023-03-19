@@ -18,29 +18,24 @@ def load_data():
 @st.cache
 def get_departments(df):
     if "NomDept" in df.columns:
-        return "NomDept", df["NomDept"].unique()
+        return df["NomDept"].unique()
     else:
         st.error("La colonne contenant les noms des départements est introuvable.")
-        return None, []
+        return []
 
 df = load_data()
-dept_col, departments = get_departments(df)
+departments = get_departments(df)
 
-if dept_col is None:
-    st.error("La colonne contenant les noms des départements est introuvable.")
-else:
+if len(departments) > 0:
     st.title("Dashboard Enquête Besoins en Main d'Oeuvre (BMO)")
 
     selected_dept = st.selectbox("Sélectionnez un département", departments)
 
-    if dept_col in df.columns:
-        filtered_df = df[df[dept_col] == selected_dept]
+    filtered_df = df[df["NomDept"] == selected_dept]
 
-        fig = px.bar(
-            filtered_df, x="Nom métier BMO", y="BE22",
-            title=f"Besoins en Main d'Oeuvre par métier pour le département {selected_dept}",
-        )
-        fig.update_xaxes(categoryorder="total descending")
-        st.plotly_chart(fig)
-    else:
-        st.error("La colonne contenant les noms des départements est introuvable.")
+    fig = px.bar(
+        filtered_df, x="Nom métier BMO", y="BE22",
+        title=f"Besoins en Main d'Oeuvre par métier pour le département {selected_dept}",
+    )
+    fig.update_xaxes(categoryorder="total descending")
+    st.plotly_chart(fig)
