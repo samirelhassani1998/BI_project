@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import zipfile
@@ -13,7 +12,7 @@ def load_data():
     with zipfile.ZipFile(BytesIO(response.content), "r") as zip_ref:
         xlsx_files = [f for f in zip_ref.filelist if f.filename.endswith(".xlsx")]
         with zip_ref.open(xlsx_files[0], "r") as file:
-            df = pd.read_excel(file, engine="openpyxl")
+            df = pd.read_excel(file, engine="openpyxl", sheet_name=0, header=0)
     return df
 
 @st.cache
