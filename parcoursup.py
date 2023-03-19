@@ -49,4 +49,3 @@ st.header("Analyse géographique")
 # Exemple : analyse comparative
 st.header("Analyse comparative")
 # Insérez ici votre code pour l'analyse comparative
-
