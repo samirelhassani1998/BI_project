@@ -13,6 +13,8 @@ def load_data():
         xlsx_files = [f for f in zip_ref.filelist if f.filename.endswith(".xlsx")]
         with zip_ref.open(xlsx_files[0], "r") as file:
             df = pd.read_excel(file, engine="openpyxl", sheet_name=0, header=0)
+    
+    print(df.columns)  # Affiche les noms de colonnes
     return df
 
 @st.cache
