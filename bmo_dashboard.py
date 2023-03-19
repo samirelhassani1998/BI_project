@@ -24,6 +24,8 @@ df = load_data()
 
 # Affiche les noms de colonnes sur le tableau de bord Streamlit
 st.write(df.columns)
+# Affiche les premières lignes du DataFrame sur le tableau de bord Streamlit
+st.write(df.head())
 
 departments = get_departments(df)
 
