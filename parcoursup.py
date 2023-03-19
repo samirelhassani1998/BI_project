@@ -5,7 +5,7 @@ import seaborn as sns
 
 # Chargez les données depuis l'URL
 url = "https://www.data.gouv.fr/fr/datasets/r/1d916b7c-bd4c-4951-845a-70f7ad7c17db"
-data = pd.read_csv(url)
+data = pd.read_csv(url, sep=';')
 
 # Titre du tableau de bord
 st.title("Analyse des données Parcoursup")
