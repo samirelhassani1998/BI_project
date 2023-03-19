@@ -14,7 +14,6 @@ def load_data():
         with zip_ref.open(xlsx_files[0], "r") as file:
             df = pd.read_excel(file, engine="openpyxl", sheet_name=0, header=0)
     
-    print(df.columns)  # Affiche les noms de colonnes
     return df
 
 @st.cache
@@ -22,6 +21,10 @@ def get_departments(df):
     return df["NomDept"].unique()
 
 df = load_data()
+
+# Affiche les noms de colonnes sur le tableau de bord Streamlit
+st.write(df.columns)
+
 departments = get_departments(df)
 
 st.title("Dashboard Enquête Besoins en Main d'Oeuvre (BMO)")
