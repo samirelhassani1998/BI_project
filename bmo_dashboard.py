@@ -17,12 +17,8 @@ def load_data():
 
 @st.cache
 def get_departments(df):
-    dept_col = [col for col in df.columns if 'Dept' in col]
-    
-    if not dept_col:
-        return None, []
-    
-    return dept_col[0], df[dept_col[0]].unique()
+    return df["NomDept"].unique()
+
 
 df = load_data()
 dept_col, departments = get_departments(df)
