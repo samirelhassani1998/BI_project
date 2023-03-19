@@ -1,66 +1,52 @@
-import pandas as pd
 import streamlit as st
+import pandas as pd
 import plotly.express as px
+import seaborn as sns
 
-# Charger les données
-url = "https://www.data.gouv.fr/fr/datasets/r/1d916b7c-bd4c-4951-845a-70f7ad7c17db"
-data = pd.read_csv(url, delimiter=";")
+# Chargez les données (remplacez "data.csv" par le nom du fichier de vos données)
+data = pd.read_csv("data.csv")
 
-# Configuration de la page
-st.set_page_config(page_title="Dashboard des formations", layout="wide")
+# Titre du tableau de bord
+st.title("Analyse des données Parcoursup")
 
-# Titre
-st.title("Dashboard des formations")
+# Répartition des candidats par sexe, série de baccalauréat, mention obtenue, statut boursier et origine géographique
+st.header("Répartition des candidats")
+fig = px.histogram(data, x="serie_bac", color="sexe", barmode="group", nbins=50)
+st.plotly_chart(fig)
 
-# Analyse descriptives
-st.header("Analyse descriptives")
-
-# Répartition des candidats par sexe
-sex_count = data["sexe"].value_counts()
-st.subheader("Répartition des candidats par sexe")
-st.bar_chart(sex_count)
-
-# Répartition des candidats par série de baccalauréat
-bac_count = data["serie_bac"].value_counts()
-st.subheader("Répartition des candidats par série de baccalauréat")
-st.bar_chart(bac_count)
-
-# Ajoutez d'autres graphiques similaires pour les autres variables
-
-# Analyse des tendances
-st.header("Analyse des tendances")
+# Répartition des vœux et des propositions d'admission par formation, type de formation (sélective ou non) et établissement
+st.header("Répartition des vœux et des propositions d'admission")
+fig2 = px.scatter(data, x="type_formation", y="nb_voeux", color="etablissement")
+st.plotly_chart(fig2)
 
 # Identifier les formations et les établissements les plus demandés et les plus sélectifs
-top_demand = data["formation"].value_counts().head(10)
-st.subheader("Formations les plus demandées")
-st.bar_chart(top_demand)
+st.header("Formations et établissements les plus demandés et les plus sélectifs")
+# Utilisez les colonnes appropriées de vos données pour l'analyse
+top_demandes = data.nlargest(10, "nb_voeux")
+top_selectifs = data.nlargest(10, "taux_selectivite")
+st.write("Formations les plus demandées:")
+st.write(top_demandes[["formation", "etablissement", "nb_voeux"]])
+st.write("Formations les plus sélectives:")
+st.write(top_selectifs[["formation", "etablissement", "taux_selectivite"]])
 
-# Ajoutez d'autres graphiques et analyses pour les tendances
+# Autres analyses (tendances, corrélations, géographiques, comparatives)
+# Vous pouvez continuer à ajouter des sections pour chaque type d'analyse que vous souhaitez réaliser,
+# en utilisant des visualisations appropriées telles que des histogrammes, des diagrammes à barres,
+# des nuages de points, des cartes, etc., ainsi que des tableaux pour afficher les données pertinentes.
 
-# Analyse des corrélations
+# Exemple : analyse des tendances
+st.header("Analyse des tendances")
+# Insérez ici votre code pour l'analyse des tendances
+
+# Exemple : analyse des corrélations
 st.header("Analyse des corrélations")
+# Insérez ici votre code pour l'analyse des corrélations
 
-# Étudier les relations entre les caractéristiques des candidats et leur succès
-correlation_matrix = data.corr()
-st.subheader("Matrice de corrélation")
-st.write(correlation_matrix)
-
-# Analyse géographique
+# Exemple : analyse géographique
 st.header("Analyse géographique")
+# Insérez ici votre code pour l'analyse géographique
 
-# Cartographier la distribution des vœux et des propositions d'admission par région
-region_count = data["region"].value_counts()
-st.subheader("Distribution des vœux par région")
-st.bar_chart(region_count)
-
-# Analyse comparative
+# Exemple : analyse comparative
 st.header("Analyse comparative")
+# Insérez ici votre code pour l'analyse comparative
 
-# Comparer les résultats entre différentes catégories de candidats
-neobac_count = data[data["categorie"] == "neo_bachelier"]["formation"].value_counts().head(10)
-st.subheader("Top 10 des formations pour les néo-bacheliers")
-st.bar_chart(neobac_count)
-
-# Ajoutez d'autres graphiques pour les autres catégories de candidats et formations
-
-# N'oubliez pas d'ajouter les bibliothèques nécessaires au début du fichier
