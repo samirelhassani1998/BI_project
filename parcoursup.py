@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import seaborn as sns
 
 # Chargez les données depuis l'URL
 url = "https://www.data.gouv.fr/fr/datasets/r/1d916b7c-bd4c-4951-845a-70f7ad7c17db"
@@ -15,19 +14,45 @@ st.header("Répartition des candidats")
 fig = px.histogram(data, x="serie_bac", color="sexe", barmode="group", nbins=50)
 st.plotly_chart(fig)
 
-# Répartition des vœux et des propositions d'admission par formation, type de formation (sélective ou non) et établissement
-st.header("Répartition des vœux et des propositions d'admission")
-fig2 = px.scatter(data, x="select_form", y="voe_tot", color="g_ea_lib_vx")
+# Répartition des candidatures et des admissions par région, académie, département et type de formation (sélective ou non)
+st.header("Répartition des candidatures et des admissions")
+# Répartition par région
+fig1 = px.histogram(data, x="reg_ins", color="statut", barmode="group")
+st.plotly_chart(fig1)
+# Répartition par académie
+fig2 = px.histogram(data, x="aca_ins", color="statut", barmode="group")
 st.plotly_chart(fig2)
+# Répartition par département
+fig3 = px.histogram(data, x="dep_ins", color="statut", barmode="group")
+st.plotly_chart(fig3)
+# Répartition par type de formation
+fig4 = px.histogram(data, x="select_form", color="statut", barmode="group")
+st.plotly_chart(fig4)
 
-# Identifier les formations et les établissements les plus demandés et les plus sélectifs
-st.header("Formations et établissements les plus demandés et les plus sélectifs")
-# Utilisez les colonnes appropriées de vos données pour l'analyse
-top_demandes = data.nlargest(10, "voe_tot")
-top_selectifs = data.nlargest(10, "select_form")
-st.write("Formations les plus demandées:")
-st.write(top_demandes[["lib_for_voe_ins", "g_ea_lib_vx", "voe_tot"]])
-st.write("Formations les plus sélectives:")
-st.write(top_selectifs[["lib_for_voe_ins", "g_ea_lib_vx", "select_form"]])
+# Visualisation des taux d'accès par formation
+st.header("Visualisation des taux d'accès")
+# Taux d'accès par formation
+taux_acces = data.groupby("lib_for_voe_ins")["taux_acces"].mean().reset_index()
+fig5 = px.bar(taux_acces, x="lib_for_voe_ins", y="taux_acces", title="Taux d'accès par formation")
+st.plotly_chart(fig5)
 
-# Autres analyses (tendances, corrélations, etc.)...
+# Analyse des caractéristiques des candidats admis
+st.header("Analyse des caractéristiques des candidats admis")
+# Répartition par sexe
+fig6 = px.histogram(data, x="sexe", color="statut", barmode="group")
+st.plotly_chart(fig6)
+# Répartition par série de baccalauréat
+fig7 = px.histogram(data, x="serie_bac", color="statut", barmode="group")
+st.plotly_chart(fig7)
+# Répartition par mention au baccalauréat
+fig8 = px.histogram(data, x="men_bac", color="statut", barmode="group")
+st.plotly_chart(fig8)
+# Répartition par origine géographique
+fig9 = px.histogram(data, x="dep_naiss", color="statut", barmode="group")
+st.plotly_chart(fig9)
+# Répartition par statut de boursier
+fig10 = px.histogram(data, x="boursier", color="statut", barmode="group")
+st.plotly_chart(fig10)
+
+# Analyse de la capacité d'accueil
+st.header("Analyse de la capacité d'accueil")
