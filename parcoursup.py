@@ -9,9 +9,9 @@ data = pd.read_csv(url, sep=';')
 # Titre du tableau de bord
 st.title("Analyse des données Parcoursup")
 
-# Répartition des candidats par sexe, série de baccalauréat, mention obtenue, statut boursier et origine géographique
-st.header("Répartition des candidats")
-fig = px.histogram(data, x="serie_bac", color="sexe", barmode="group", nbins=50)
+# Répartition des candidats par sexe et série de baccalauréat
+st.header("Répartition des candidats par sexe et série de baccalauréat")
+fig = px.histogram(data, x="serie_bac", color="sexe", barmode="group")
 st.plotly_chart(fig)
 
 # Répartition des candidatures et des admissions par région, académie, département et type de formation (sélective ou non)
