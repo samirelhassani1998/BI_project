@@ -30,23 +30,4 @@ st.write(top_demandes[["lib_for_voe_ins", "g_ea_lib_vx", "voe_tot"]])
 st.write("Formations les plus sélectives:")
 st.write(top_selectifs[["lib_for_voe_ins", "g_ea_lib_vx", "select_form"]])
 
-# Autres analyses (tendances, corrélations, géographiques, comparatives)
-# Vous pouvez continuer à ajouter des sections pour chaque type d'analyse que vous souhaitez réaliser,
-# en utilisant des visualisations appropriées telles que des histogrammes, des diagrammes à barres,
-# des nuages de points, des cartes, etc., ainsi que des tableaux pour afficher les données pertinentes.
-
-# Exemple : analyse des tendances
-st.header("Analyse des tendances")
-# Insérez ici votre code pour l'analyse des tendances
-
-# Exemple : analyse des corrélations
-st.header("Analyse des corrélations")
-# Insérez ici votre code pour l'analyse des corrélations
-
-# Exemple : analyse géographique
-st.header("Analyse géographique")
-# Insérez ici votre code pour l'analyse géographique
-
-# Exemple : analyse comparative
-st.header("Analyse comparative")
-# Insérez ici votre code pour l'analyse comparative
+# Autres analyses (tendances, corrélations, etc.)...
